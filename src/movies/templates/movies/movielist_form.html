@@ -1,0 +1,27 @@
+{% extends '../sitetemplate/header_footer.html' %}
+{% block 'body' %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+                <div class="moviesite__form">
+                    <div class="section-title">
+                        <h1>{{sectionTitle}}</h1>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="main-button d-inline-flex">
+                            <button type="submit">{{submitButtonLabel}}</button>
+                        </div>
+                        <div class="main-border-button d-inline-flex">
+                            <a href="{{request.META.HTTP_REFERER|escape}}">Hủy</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

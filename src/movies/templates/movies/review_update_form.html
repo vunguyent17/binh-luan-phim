@@ -1,0 +1,42 @@
+{% extends '../sitetemplate/header_footer.html' %}
+{% block 'body' %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+                <div class="moviesite__form">
+                    <div class="section-title">
+                        <h1>Sửa đánh giá</h1>
+                    </div>
+                    <h3>Thông tin phim</h3>
+                    <div class = "movie__details__widget">
+                        <ul class="p-2 m-2">
+                            <li><span class="category">Tên phim:</span> <span class="detail-info">{{object.movie.title}}</span></li>
+                            <li><span class="category">Năm phát hành:</span> <span class="detail-info">{{object.movie.year}}</span></li>
+                            <li><span class="category">Thể loại:</span> <span class="detail-info">{{object.movie.genres.all|join:", "}}</span></li>
+                        </ul>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <table>
+                            {{ form|crispy }}
+                        </table>
+                        <br>
+                        <div class="main-button d-inline-flex">
+                            <button type="submit">Cập nhật</button>
+                        </div>
+                        <div class="main-border-button d-inline-flex">
+                            <a href="{{request.META.HTTP_REFERER|escape}}">Hủy</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

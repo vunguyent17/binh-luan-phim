@@ -1,0 +1,17 @@
+asgiref==3.5.2
+colorama==0.4.6
+crispy-bootstrap5==0.7
+django-crispy-forms==1.14.0
+django-filter==22.1
+Django==4.1.4
+pip==22.0.4
+psycopg2==2.9.5
+setuptools==58.1.0
+sqlparse==0.4.3
+tzdata==2022.7
+python-dotenv==0.21.0
+psycopg2-binary==2.9.5
+dj-database-url==1.2.0
+gunicorn==20.1.0
+whitenoise==6.2.0
+Brotli==1.0.9

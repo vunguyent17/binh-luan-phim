@@ -1,0 +1,18 @@
+{% if messages %}
+{% for message in messages %}
+  <div id="msgalert" data-alert="{{ message.tags }}" class="moviesite__alert alert {{ message.tags }} alert-dismissible" role="alert" >
+    <button type="button" class="btn-close" data-bs-dismiss="alert" ></button>
+    {{ message|safe }}
+  </div>
+{% endfor %}
+<script type="text/javascript">
+var message_ele = document.getElementById("msgalert");
+var tag_name = message_ele.dataset.alert
+if (tag_name != "alert-danger") {
+  setTimeout(function(){
+   message_ele.style.display = "none";
+}, 7000);
+}
+
+</script>
+{% endif %}

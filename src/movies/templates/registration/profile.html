@@ -1,0 +1,125 @@
+{% extends '../sitetemplate/header_footer.html' %}
+{% block 'body' %}
+{% if request.user.is_authenticated %}
+{% include '../sitetemplate/modal_delete_confirm.html' with headerText='Xóa bài đánh giá?' bodyText='Bạn có chắc chắn muốn xóa bài đánh giá này?' %}
+{% load static %}
+<script src="{% static 'assets/js/delete-review.js' %}"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+
+                <!-- *****Profile Start ***** -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-profile">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    {% load static %}
+                                    <img src="{% static 'assets/images/profile.jpg' %}" alt="My image"
+                                         style="border-radius: 23px;">
+                                </div>
+                                <div class="col-lg-4 align-self-center">
+                                    <div class="main-info header-text">
+                                        <h4>{{user.username}}</h4>
+                                        <p class="my-2">Email: <span class="user-info">{{user.email}}</span></p>
+                                        <p class="my-2">Ngày lập: <span class="user-info">{{user.date_joined | date:"d M Y, H:i"}}</span></p>
+                                        {% if user == request.user %}
+                                        <div class="main-border-button">
+                                            <a class="logout" href="{% url 'movies:logout' %}">Đăng xuất</a><br>
+                                        </div>
+                                        <a href="{% url 'movies:password_change' %}">Đổi mật khẩu</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 align-self-center">
+                                    <ul>
+                                        <li>Số nhận xét: <span>{{reviews_count}}</span></li>
+                                        <li>Số phim đã đánh giá: <span>{{movies_count}}</span></li>
+                                        <li>Số danh sách phim: <span>{{movielists.count}}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="movielists">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="heading-section">
+                                                    <h4><em>Bộ sưu tập </em>danh sách phim
+                                                        {% if user == request.user %}
+                                                        <span><a class="btn btn-success float-end"
+                                                                 href="{% url 'movies:create_movielist' %}">+ Thêm danh sách phim mới</a></span>
+                                                        {% endif %}
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                {% for mlist in movielists.all %}
+                                                <div class="item">
+                                                    <h4>Danh sách phim</h4>
+                                                    <h2>{{mlist.name}}</h2>
+                                                    <p>{{mlist.movies.count}} phim | Tạo bởi: {{ mlist.user.username}} |
+                                                        Ngày tạo: {{mlist.pub_date}} | Cập nhật:
+                                                        {{mlist.last_modified}}</p>
+                                                    <p class="text-white">{{mlist.description}}</p>
+                                                    <div class="d-flex justify-content-end">
+                                                        <a class="btn btn-success"
+                                                           href="{% url 'movies:detail_movielist' mlist.id %}">Chi
+                                                            tiết</a>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ***** Profile End ***** -->
+
+                    <!-- ***** Review History Start ***** -->
+                    <div class="review-history profile-library">
+                        <div class="col-lg-12">
+                            <div class="heading-section">
+                                <h4><em>Lịch sử</em> đánh giá phim:</h4>
+                            </div>
+                            {% for review in reviews.all %}
+                            <div class="item">
+                                <ul>
+                                    <li><img src="{{review.movie.posterUrl}}" alt="" class="templatemo-item"></li>
+                                    <li><h4>Tên phim</h4><span><a href="{% url 'movies:detail' review.movie.id %}">{{review.movie.title}}</a></span></li>
+                                    <li><h4>Năm phát hành</h4><span>{{review.movie.year}}</span></li>
+                                    <li><h4>Ngày tạo</h4><span>{{review.pub_date | date:"d M Y, H:i" }}</span></li>
+                                    <li><h4>Cập nhật lần cuối</h4>
+                                        <span>{{review.last_modified | date:"d M Y, H:i" }}</span></li>
+                                    <li><h4>Đánh giá</h4><span>{{review.rating}}/10</span></li>
+                                </ul>
+                                <h6 class="m-3">Nhận xét:</h6>
+                                <fieldset class="border border-secondary rounded">
+                                    <p class="text-white px-3 m-3">{{review.comment}}</p>
+                                </fieldset>
+                                {% if user == request.user %}
+                                <div class="d-flex justify-content-end"><a class="btn btn-link"
+                                                                           href="{% url 'movies:update_review' review.id %}">Chỉnh
+                                    sửa</a> |
+                                    <button class="btn btn-link confirm-delete text-decoration-none"
+                                            data-delete-link="{% url 'movies:delete_review' review.id %}">Xóa
+                                    </button>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- ***** Review History  End ***** -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<p>Người dùng phải đăng nhập</p>
+{% endif %}
+{% endblock %}

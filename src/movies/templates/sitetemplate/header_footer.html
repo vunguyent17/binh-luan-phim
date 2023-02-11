@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <title>Bình Luận Phim</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/template-moviesite.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"
+            integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.js"
+            integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- ***** Preloader End ***** -->
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    {% load movies_extras %}
+                    {% with url_str=request.path %}
+                    <a href="/" class="logo h3 heading-section {% if '/' == url_str %}active{% endif %}">
+                        Bình luận phim
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li><a href="{% url 'movies:browse' %}"  class="{% if 'browse' in url_str %}active{% endif %}">Duyệt tìm</a></li>
+                        <li>
+                            {% if request.user.is_authenticated %}
+                            {% load static %}
+                            <a href="{% url 'movies:profile' request.user.username %}" class="login {% if 'accounts' in url_str or 'user/'|addstr:request.user.username in url_str  %}active{% endif %}" > {{request.user.username}} <img
+                                    src="{% static 'assets/images/profile-header.jpg' %}"  alt="profile pic"></a>
+                            {% else %}
+                            <a href="{% url 'movies:login' %}" class="notlogin{% if 'accounts' in url_str %} active{% endif %}">Đăng nhập / Đăng ký </a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                    {% endwith %}
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+{% block 'body' %}
+{% endblock %}
+{% include './messages.html' %}
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Bản quyền © 2036 <a href="/">Bình Luận Phim</a> Company.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Scripts -->
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'assets/js/isotope.min.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+<script src="{% static 'assets/js/tooltip.js' %}"></script>
+
+</body>
+
+</html>

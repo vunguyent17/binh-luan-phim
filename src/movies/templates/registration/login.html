@@ -1,0 +1,27 @@
+{% extends '../sitetemplate/header_footer.html' %}
+{% block 'body' %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+                <div class="moviesite__form">
+                    <div class="section-title">
+                        <h1>Đăng nhập</h1>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                        {{ login_form|crispy }}
+                        <div class="main-button">
+                            <button type="submit">Đăng nhập</button>
+                        </div>
+                    </form>
+                    <p class="text-center">Bạn chưa có tài khoản? <a href="{% url 'movies:signup' %}">Tạo tài khoản mới</a>.</p>
+                    <p class="text-center"><a href="{% url 'movies:password_reset' %}">Tôi không nhớ mật khẩu</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

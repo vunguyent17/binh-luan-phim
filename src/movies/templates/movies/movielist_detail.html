@@ -1,0 +1,109 @@
+{% extends '../sitetemplate/header_footer.html' %}
+{% block 'body' %}
+{% include '../sitetemplate/modal_delete_confirm.html' with headerText='Xóa danh sách phim?' bodyText='Bạn có chắc chắn muốn xóa danh sách phim này?' %}
+{% load static %}
+<script src="{% static 'assets/js/add-movie-to-this-list.js' %}"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+
+                <!-- ***** Banner Start ***** -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-profile ">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    {% load static %}
+                                    <img src="{% static 'assets/images/profile.jpg' %}" alt="My image"
+                                         style="border-radius: 23px;">
+                                </div>
+                                <div class="col-lg-8 align-self-center">
+                                    <div class="main-info header-text">
+                                        <div class="m-2">
+                                            <p>Danh sách phim</p>
+                                            <h4>{{movielist.name}}</h4>
+                                            <div class="w-50">
+                                                <p class="my-2">Tạo bởi: <a href="{% url 'movies:profile' movielist.user.username %}" class="movielist-info">{{movielist.user.username}}</a>
+                                                </p>
+                                                <p class="my-2">Ngày lập: <span class="movielist-info">{{movielist.pub_date| date:"d M Y, H:i"}}</span></p>
+                                                <p class="my-2">Cập nhật: <span class="movielist-info">{{movielist.last_modified | date:"d M Y, H:i"}}</span></p>
+                                                <p class="my-2">Số lượng phim: <span class="movielist-info">{{movielist.movies.count}}</span></p>
+                                            </div>
+                                            <p class="description">{{movielist.description}}</p>
+                                        </div>
+                                        {% if movielist.type != "favorite" and movielist.user == request.user %}
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-danger confirm-delete m-2">Xóa danh sách</button>
+                                            <a class="btn btn-success m-2"
+                                               href="{% url 'movies:edit_movielist' movielist.id%}">Chỉnh
+                                                sửa thông tin</a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ***** Banner End ***** -->
+
+            <!-- ***** Movielist detail Start ***** -->
+            <div class="review-history profile-library">
+                {% if movielist.user == request.user %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div id="search-movie-section" class="col-lg-12">
+
+                                <h4>Tìm kiếm phim thêm vào danh sách</h4>
+                                <div class="input-group rounded w-50 my-3">
+                                    <input id="search-movies" type="search" class="form-control"
+                                           placeholder="Nhập tên phim.."
+                                           aria-label="Search" aria-describedby="search-addon"/>
+                                    <span class="input-group-text border-0 bg-white" id="search-addon">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+
+                                </div>
+                                <div id="myDropdown" class="dropdown-content" tabindex="-1">
+                                    <ul id="search-results">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div id="movie_list_detail" class="row">
+                    <div class="col-lg-12 movie_list_detail_body mt-4">
+                        {% if movielist.movies.count != 0 %}
+                        {% for movie in movielist.movies.all %}
+                        <div id="movie{{movie.id}}" class="item">
+                            <h4><a href="{% url 'movies:detail' movie.id%}">{{movie.title}}</a>
+                                {% if movielist.user == request.user %}
+                                <button id="delete{{movie.id}}"
+                                        class="btn btn-link delete-movie text-decoration-none float-end"
+                                        data-movie-id="{{movie.id}}">Xóa
+                                </button>
+                                {% endif %}
+                            </h4>
+                            <p>Năm: {{movie.year}} | Thể loại: {{movie.genres.all|join:", "}}</p>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p class="text-white text-center p-3">Danh sách trống</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <script src="{% static 'assets/js/delete-movie-in-list.js' %}"></script>
+                <script src="{% static 'assets/js/delete-movielist.js' %}"></script>
+                <script src="{% static 'assets/js/live-search-movie.js' %}"></script>
+            </div>
+            <!-- ***** Movielist detail End ***** -->
+        </div>
+    </div>
+</div>
+{% endblock %}
