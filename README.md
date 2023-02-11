@@ -36,10 +36,14 @@ Bình Luận Phim Website is a web application that allows users to browse and f
 ### Dịch vụ bên thứ ba / Third-party services:
 - SMTP Server (Gửi thông tin email khởi động lại tài khoản): [MailTrap](https://mailtrap.io/)
 
+### Template
+https://themewagon.github.io/cyborg/
+
 ## Demo
-[Link video demo]()
+[Link video demo](https://drive.google.com/file/d/1HJ2KIlPDBXLNBYg_Xb00smFRIG9tNZ15/view?usp=sharing)
 <br/>
 [Link website](https://binh-luan-phim.onrender.com/)
+(Sample account: username: vunt, password: Testing@123)
 
 ## Set up project locally
 ### Prerequisites
